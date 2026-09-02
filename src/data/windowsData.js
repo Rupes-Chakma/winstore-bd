@@ -1,0 +1,187 @@
+export const windowsData = [
+  {
+    id: "win11",
+    versionName: "Windows 11",
+    editions: [
+      {
+        id: "win11-pro",
+        name: "Windows 11 Pro",
+        type: "Pro",
+        price: 1490,
+        desc: "প্রফেশনাল ইউজার এবং বিজনেসের জন্য সেরা পারফরম্যান্স ও সিকিউরিটি।",
+        features: [
+          "BitLocker ডিভাইস এনক্রিপশন",
+          "Windows Sandbox সাপোর্ট",
+          "Remote Desktop সুবিধা",
+          "লাইফটাইম ডিজিটাল লাইসেন্স",
+        ],
+      },
+      {
+        id: "win11-home",
+        name: "Windows 11 Home",
+        type: "Home",
+        price: 1190,
+        desc: "বাসাবাড়ির সাধারণ কাজ ও গেমিংয়ের জন্য উপযুক্ত এডিশন।",
+        features: [
+          "ডিজিটাল সিকিউরিটি",
+          "গেমিং মোড ও ডাইরেক্ট স্টোরেজ",
+          "স্মার্ট অ্যাপ কন্ট্রোল",
+          "লাইফটাইম সুবিধা",
+        ],
+      },
+      {
+        id: "win11-enterprise",
+        name: "Windows 11 Enterprise",
+        type: "Enterprise",
+        price: 1990,
+        desc: "বৃহৎ কর্পোরেট ও আইটি অর্গানাইজেশনের জন্য অ্যাডভান্সড সিকিউরিটি ও কন্ট্রোল।",
+        features: [
+          "DirectAccess ও AppLocker",
+          "অ্যাডভান্সড থ্রেট প্রোটাকশন",
+          "লাইফটাইম কর্পোরেট ভলিউম লাইসেন্স",
+          "২৪/৭ সাপোর্ট",
+        ],
+      },
+    ],
+  },
+  {
+    id: "win10",
+    versionName: "Windows 10",
+    editions: [
+      {
+        id: "win10-pro",
+        name: "Windows 10 Pro",
+        type: "Pro",
+        price: 1290,
+        desc: "স্মুথ ও স্টেবল পারফরম্যান্সের জন্য জনপ্রিয় উইন্ডোজ ভার্সন।",
+        features: [
+          "BitLocker সুবিধা",
+          "Group Policy Management",
+          "ফাস্ট ও সিকিউর বুট",
+          "লাইফটাইম মেয়াদ",
+        ],
+      },
+      {
+        id: "win10-home",
+        name: "Windows 10 Home",
+        type: "Home",
+        price: 990,
+        desc: "দৈনন্দিন ব্রাউজিং ও অফিসিয়াল কাজের জন্য পারফেক্ট।",
+        features: [
+          "Windows Defender সিকিউরিটি",
+          "সহজ ইউজার ইন্টারফেস",
+          "লাইফটাইম অফিশিয়াল আপডেট",
+        ],
+      },
+      {
+        id: "win10-enterprise-ltsc",
+        name: "Windows 10 Enterprise LTSC",
+        type: "LTSC",
+        price: 1690,
+        desc: "কোনো অপ্রয়োজনীয় ব্লোটওয়্যার ছাড়া হালকা ও অতি-স্মুথ উইন্ডোজ ভার্সন।",
+        features: [
+          "লাইটওয়েট ও সুপার ফাস্ট",
+          "ব্লোটওয়্যার-ফ্রি ক্লিন ওএস",
+          "লং টার্ম সার্ভিসিং সাপোর্ট",
+          "গেমিং ও এডিটিংয়ের জন্য সেরা",
+        ],
+      },
+    ],
+  },
+  {
+    id: "win7",
+    versionName: "Windows 7",
+    editions: [
+      {
+        id: "win7-ultimate",
+        name: "Windows 7 Ultimate",
+        type: "Ultimate",
+        price: 790,
+        desc: "পুরানো পিসি বা লো-কনফিগারেশন পিসির জন্য সবচেয়ে জনপ্রিয় ও লাইটওয়েট ওএস।",
+        features: [
+          "কম র‍্যাম ও সিপียু ব্যবহার করে",
+          "সব ধরনের ক্লাসিক সফটওয়্যার সাপোর্ট",
+          "সহজ এক্টিভেশন প্রক্রিয়া",
+          "লাইফটাইম মেয়াদ",
+        ],
+      },
+      {
+        id: "win7-pro",
+        name: "Windows 7 Professional",
+        type: "Pro",
+        price: 690,
+        desc: "অফিসিয়াল ও কাজের পিসির জন্য ক্লাসিক উইন্ডোজ ভার্সন।",
+        features: [
+          "Windows XP Mode সুবিধা",
+          "নেটওয়ার্ক ব্যাকআপ সাপোর্ট",
+          "স্ট্যাবল ও লাইটওয়েট",
+          "অনলাইন জেনুইন কি",
+        ],
+      },
+    ],
+  },
+  {
+    id: "win-server",
+    versionName: "Windows Server",
+    editions: [
+      {
+        id: "win-server-2022-std",
+        name: "Windows Server 2022 Standard",
+        type: "Server",
+        price: 3490,
+        desc: "সার্ভার ম্যানেজমেন্ট, ডাটা সেন্টার ও নেটওয়ার্কিংয়ের জন্য আধুনিক সমাধান।",
+        features: [
+          "মাল্টি-লেয়ার সিকিউরিটি",
+          "হাইব্রিড ক্লাউড মেকানিজম",
+          "১৬-কোর ড্রাইভার সাপোর্ট",
+          "জেনুইন সার্ভার কি",
+        ],
+      },
+      {
+        id: "win-server-2019-std",
+        name: "Windows Server 2019 Standard",
+        type: "Server",
+        price: 2890,
+        desc: "ছোট ও মাঝারি ব্যবসার সার্ভার কনফিগারেশনের জন্য নির্ভরযোগ্য ভার্সন।",
+        features: [
+          "অ্যাডভান্সড থ্রেট প্রটেকশন",
+          "হাইপার-কনভার্জড ইনফ্রাস্ট্রাকচার",
+          "অফিশিয়াল আইএসও ডাউনলোড লিংক",
+          "লাইফটাইম মেয়াদ",
+        ],
+      },
+    ],
+  },
+  {
+    id: "office",
+    versionName: "MS Office Suites",
+    editions: [
+      {
+        id: "ms-office-2021-pro-plus",
+        name: "Office 2021 Professional Plus",
+        type: "Office",
+        price: 1890,
+        desc: "Word, Excel, PowerPoint, Outlook সহ সব অফিস অ্যাপের অফিশিয়াল কি।",
+        features: [
+          "১ পিসি লাইফটাইম লাইসেন্স",
+          "মাইক্রোসফট একাউন্ট বাইন্ডেবল",
+          "সব অফিস অ্যাপ অন্তর্ভুক্ত",
+          "অটোমেটিক অফিশিয়াল আপডেট",
+        ],
+      },
+      {
+        id: "ms-office-365",
+        name: "Microsoft 365 Personal (1 Year)",
+        type: "Office",
+        price: 2490,
+        desc: "১ বছরের জন্য ৫টি ডিভাইসে ব্যবহারযোগ্য প্লাস ১টিবি ক্লাউড স্টোরেজ।",
+        features: [
+          "৫টি ডিভাইসে লগইন সুবিধা",
+          "1TB OneDrive ক্লাউড স্টোরেজ",
+          "সর্বশেষ ফিচার ও এআই টুলস",
+          "১ বছরের অফিশিয়াল সাবস্ক্রিপশন",
+        ],
+      },
+    ],
+  },
+];
