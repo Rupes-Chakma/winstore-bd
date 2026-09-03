@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import VersionFilter from "../components/product/VersionFilter";
 import ProductCard from "../components/product/ProductCard";
-import Reviews from "../components/trust/Reviews";
 import LiveChat from "../components/trust/LiveChat";
 import { windowsData } from "../data/windowsData";
 import { Shield, Zap, RefreshCw } from "lucide-react";
+
+// সঠিক ইম্পোর্ট (যেহেতু ফাইলগুলো src/Home/ ফোল্ডারে আছে)
+import PromoVideo from "../Home/PromoVideo";
+import ReviewSlider from "../Home/ReviewSlider";
+import FAQ from "../Home/FAQ";
 
 export default function HomePage() {
   const [selectedVersion, setSelectedVersion] = useState("all");
@@ -16,22 +20,25 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen text-slate-100">
-      <section className="relative pt-12 pb-20 overflow-hidden">
+      {/* 1. Hero Section */}
+      <section className="relative pt-12 pb-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
           <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-6">
-            <Zap className="w-3.5 h-3.5" /> ইনস্ট্যান্ট ডেলিভারি ও ১০০% অফিশিয়াল
-            লাইসেন্স
+            <Zap className="w-3.5 h-3.5" /> ইনস্ট্যান্ট ডেলিভারি ও ১০০%
+            অফিশিয়াল লাইসেন্স
           </span>
+
           <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-tight">
             আপনার পিসির জন্য অরিজিনাল <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-sky-400 bg-clip-text text-transparent">
               Windows OS প্রোডাক্ট কি
             </span>
           </h1>
+
           <p className="max-w-2xl mx-auto text-slate-400 text-base md:text-lg mb-10 leading-relaxed">
-            কোনো ক্র্যাক বা ভুয়া সফটওয়্যার ব্যবহার না করে জেনুইন উইন্ডোজ
-            লাইসেন্স কি ব্যবহার করুন। সম্পূর্ণ জেনুইন সিকিউরিটি ও অফিশিয়াল আপডেট
-            পান সহজেই।
+            কোনো ক্র্যাক বা ভুয়া সফটওয়্যার ব্যবহার না করে জেনুইন উইন্ডোজ
+            লাইসেন্স কি ব্যবহার করুন। সম্পূর্ণ জেনুইন সিকিউরিটি ও অফিশিয়াল
+            আপডেট পান সহজেই।
           </p>
 
           <div className="flex flex-wrap justify-center gap-6 text-slate-300 text-sm font-medium">
@@ -45,14 +52,18 @@ export default function HomePage() {
             </div>
             <div className="flex items-center gap-2 bg-slate-800/60 px-4 py-2 rounded-xl border border-slate-700/50">
               <RefreshCw className="w-4 h-4 text-emerald-400" />
-              <span>লাইফটাইম মেয়াদ ও আপডেট</span>
+              <span>লাইফটাইম মেয়াদ ও আপডেট</span>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 py-6" id="products">
-        <div className="text-center mb-4">
+      {/* 2. Promotional Video Section */}
+      <PromoVideo />
+
+      {/* 3. Products List Section */}
+      <section className="max-w-7xl mx-auto px-4 py-12" id="products">
+        <div className="text-center mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
             উইন্ডোজ ভার্সন বেছে নিন
           </h2>
@@ -88,7 +99,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Reviews />
+      {/* 4. Customer Review Screenshot Slider */}
+      <ReviewSlider />
+
+      {/* 5. FAQ Section */}
+      <FAQ />
+
+      {/* 6. Live Chat Widget */}
       <LiveChat />
     </div>
   );
