@@ -1,17 +1,17 @@
 import React from "react";
-import { useLanguage } from "../../context/LanguageContext"; // আপনার প্রজেক্টের পাথ অনুযায়ী এটি ঠিক করে নেবেন
+import { useLanguage } from "../../context/LanguageContext"; // আপনার প্রজেক্টের পাথ অনুযায়ী এটি ঠিক করে নেবেন
 
 export default function VersionFilter({ selectedVersion, setSelectedVersion }) {
   const { language } = useLanguage();
 
-  // ফিল্টার অপশনগুলো (এখানে id গুলো আপনার windowsData এর সাথে মিল থাকতে হবে)
+  // ফিল্টার অপশনগুলোর id সরাসরি windowsData.js এর id গুলোর সাথে মিলিয়ে দেওয়া হয়েছে
   const filters = [
     { id: "all", labelBn: "সব ভার্সন", labelEn: "All Versions" },
-    { id: "windows-11", labelBn: "Windows 11", labelEn: "Windows 11" },
-    { id: "windows-10", labelBn: "Windows 10", labelEn: "Windows 10" },
-    { id: "windows-7", labelBn: "Windows 7", labelEn: "Windows 7" },
+    { id: "win11", labelBn: "Windows 11", labelEn: "Windows 11" },
+    { id: "win10", labelBn: "Windows 10", labelEn: "Windows 10" },
+    { id: "win7", labelBn: "Windows 7", labelEn: "Windows 7" },
     {
-      id: "windows-server",
+      id: "win-server",
       labelBn: "Windows Server",
       labelEn: "Windows Server",
     },
