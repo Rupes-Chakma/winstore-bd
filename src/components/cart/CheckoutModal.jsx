@@ -1,14 +1,23 @@
 import React, { useState } from "react";
-import { X, CheckCircle, Copy, QrCode, ArrowRight } from "lucide-react";
+import { X, CheckCircle, Copy, QrCode } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
-export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
+export default function CheckoutModal({
+  isOpen,
+  onClose,
+  totalAmount = 0,
+  onConfirm,
+}) {
+  const { t } = useLanguage();
   const [paymentMethod, setPaymentMethod] = useState("bKash");
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
 
+  // Form States
   const [contactInfo, setContactInfo] = useState("");
   const [senderNumber, setSenderNumber] = useState("");
   const [trxId, setTrxId] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const paymentNumbers = {
     bKash: "01648582639",
@@ -24,18 +33,57 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
 
   if (!isOpen) return null;
 
+  // ১. ফোন নম্বর ভ্যালিডেশন
+  const handlePhoneChange = (e) => {
+    const value = e.target.value.replace(/\D/g, "");
+    if (value.length <= 11) {
+      setSenderNumber(value);
+    }
+  };
+
+  // ২. TrxID ভ্যালিডেশন
+  const handleTrxChange = (e) => {
+    const value = e.target.value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+    if (value.length <= 12) {
+      setTrxId(value);
+    }
+  };
+
   const handleCopy = () => {
     navigator.clipboard.writeText(paymentNumbers[paymentMethod]);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
+  // ৩. ফর্ম সাবমিশন
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(
-      `ধন্যবাদ! আপনার অর্ডারটি গ্রহণ করা হয়েছে। প্রোডাক্ট: ${selectedProduct?.title || "Windows Key"}`,
-    );
-    onClose();
+    setErrorMsg("");
+
+    const bdPhoneRegex = /^01[3-9]\d{8}$/;
+    if (!bdPhoneRegex.test(senderNumber)) {
+      setErrorMsg(
+        t("phoneError") ||
+          "সঠিক ১১ ডিজিটের বাংলাদেশি ফোন নম্বর দিন (যেমন: 017xxxxxxxx)",
+      );
+      return;
+    }
+
+    const paymentData = {
+      method: paymentMethod,
+      contact: contactInfo,
+      sender: senderNumber,
+      trx: trxId,
+      amount: totalAmount,
+    };
+
+    if (onConfirm && typeof onConfirm === "function") {
+      onConfirm(paymentData);
+    }
+
+    setContactInfo("");
+    setSenderNumber("");
+    setTrxId("");
   };
 
   return (
@@ -49,25 +97,29 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
           <X className="w-5 h-5" />
         </button>
 
-        {/* Modal Header */}
+        {/* Header */}
         <div className="flex items-center gap-2 mb-4">
           <CheckCircle className="w-5 h-5 text-emerald-400" />
-          <h3 className="text-xl font-bold text-white">নিরাপদ পেমেন্ট</h3>
+          <h3 className="text-xl font-bold text-white">
+            {t("securePayment") || "নিরাপদ পেমেন্ট"}
+          </h3>
         </div>
 
-        {/* Amount Card */}
+        {/* Price Box */}
         <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-center mb-6">
-          <p className="text-xs text-slate-400">মোট পরিশোধ করতে হবে</p>
+          <p className="text-xs text-slate-400">
+            {t("totalToPay") || "মোট পরিশোধ করতে হবে"}
+          </p>
           <p className="text-3xl font-extrabold text-blue-400 mt-1">
-            ৳{selectedProduct?.price || 0}
+            ৳{totalAmount}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* 1. Payment Method Buttons */}
+          {/* 1. Payment Method */}
           <div>
             <label className="block text-sm font-semibold text-slate-300 mb-2">
-              ১. পেমেন্ট মেথড নির্বাচন করুন
+              ১. {t("selectPaymentMethod") || "পেমেন্ট মেথড নির্বাচন করুন"}
             </label>
             <div className="grid grid-cols-3 gap-3">
               {["bKash", "Nagad", "Rocket"].map((method) => (
@@ -94,11 +146,12 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
             </div>
           </div>
 
-          {/* 2. Send Money Section */}
+          {/* 2. Send Money Box */}
           <div className="bg-slate-950/40 border border-slate-800 rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-semibold text-slate-300">
-                ২. <span className="font-bold">Send Money</span> করুন:
+                ২. <span className="font-bold">Send Money</span>{" "}
+                {t("doSendMoney") || "করুন"}:
               </span>
               <button
                 type="button"
@@ -106,7 +159,9 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
                 className="text-xs flex items-center gap-1.5 bg-blue-600/20 text-blue-400 border border-blue-500/30 px-3 py-1 rounded-lg hover:bg-blue-600/30 transition"
               >
                 <QrCode className="w-3.5 h-3.5" />
-                {showQR ? "QR লুকান" : "QR স্ক্যান করুন"}
+                {showQR
+                  ? t("hideQR") || "QR লুকান"
+                  : t("scanQR") || "QR স্ক্যান করুন"}
               </button>
             </div>
 
@@ -123,7 +178,8 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
                   }}
                 />
                 <p className="text-xs text-slate-400 mt-2">
-                  {paymentMethod} অ্যাপ দিয়ে স্ক্যান করুন
+                  {t("scanWithApp") ||
+                    `${paymentMethod} অ্যাপ দিয়ে স্ক্যান করুন`}
                 </p>
               </div>
             ) : (
@@ -137,7 +193,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
                   className="flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-md text-slate-200 transition"
                 >
                   <Copy className="w-3.5 h-3.5" />
-                  {copied ? "কপি হয়েছে!" : "কপি"}
+                  {copied ? t("copied") || "কপি হয়েছে!" : t("copy") || "কপি"}
                 </button>
               </div>
             )}
@@ -146,7 +202,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
           {/* 3. Input Details */}
           <div className="space-y-3">
             <label className="block text-sm font-semibold text-slate-300">
-              ৩. পেমেন্টের তথ্য দিন
+              ৩. {t("providePaymentInfo") || "পেমেন্টের তথ্য দিন"}
             </label>
 
             <input
@@ -154,7 +210,10 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
               required
               value={contactInfo}
               onChange={(e) => setContactInfo(e.target.value)}
-              placeholder="ইমেইল বা হোয়াটসঅ্যাপ নম্বর (যেখানে কি পাঠানো হবে)"
+              placeholder={
+                t("contactPlaceholder") ||
+                "ইমেইল বা হোয়াটসঅ্যাপ নম্বর (যেখানে কি পাঠানো হবে)"
+              }
               className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition"
             />
 
@@ -163,18 +222,25 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
                 type="text"
                 required
                 value={senderNumber}
-                onChange={(e) => setSenderNumber(e.target.value)}
-                placeholder={`আপনার ${paymentMethod} নম্বর`}
+                onChange={handlePhoneChange}
+                placeholder={
+                  t("senderPlaceholder") ||
+                  `আপনার ${paymentMethod} নম্বর (১১ ডিজিট)`
+                }
                 className="bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition"
               />
               <input
                 type="text"
                 value={trxId}
-                onChange={(e) => setTrxId(e.target.value)}
-                placeholder="TRXID (ঐচ্ছিক)"
+                onChange={handleTrxChange}
+                placeholder={t("trxPlaceholder") || "TRXID (ঐচ্ছিক)"}
                 className="bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition"
               />
             </div>
+
+            {errorMsg && (
+              <p className="text-xs text-rose-400 font-medium">{errorMsg}</p>
+            )}
           </div>
 
           {/* Submit Button */}
@@ -183,7 +249,7 @@ export default function CheckoutModal({ isOpen, onClose, selectedProduct }) {
             className="w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition flex items-center justify-center gap-2 mt-2"
           >
             <CheckCircle className="w-5 h-5" />
-            অর্ডার কনফার্ম করুন
+            {t("confirmOrder") || "অর্ডার কনফার্ম করুন"}
           </button>
         </form>
       </div>

@@ -1,30 +1,41 @@
 import React from "react";
+import { useLanguage } from "../../context/LanguageContext"; // আপনার প্রজেক্টের পাথ অনুযায়ী এটি ঠিক করে নেবেন
 
 export default function VersionFilter({ selectedVersion, setSelectedVersion }) {
-  const versions = [
-    { id: "all", name: "সব ভার্সন" },
-    { id: "win11", name: "Windows 11" },
-    { id: "win10", name: "Windows 10" },
-    { id: "win7", name: "Windows 7" },
-    { id: "win-server", name: "Windows Server" },
-    { id: "office", name: "MS Office" },
+  const { language } = useLanguage();
+
+  // ফিল্টার অপশনগুলো (এখানে id গুলো আপনার windowsData এর সাথে মিল থাকতে হবে)
+  const filters = [
+    { id: "all", labelBn: "সব ভার্সন", labelEn: "All Versions" },
+    { id: "windows-11", labelBn: "Windows 11", labelEn: "Windows 11" },
+    { id: "windows-10", labelBn: "Windows 10", labelEn: "Windows 10" },
+    { id: "windows-7", labelBn: "Windows 7", labelEn: "Windows 7" },
+    {
+      id: "windows-server",
+      labelBn: "Windows Server",
+      labelEn: "Windows Server",
+    },
+    { id: "ms-office", labelBn: "MS Office", labelEn: "MS Office" },
   ];
 
   return (
     <div className="flex flex-wrap justify-center gap-3 my-8">
-      {versions.map((ver) => (
-        <button
-          key={ver.id}
-          onClick={() => setSelectedVersion(ver.id)}
-          className={`px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 ${
-            selectedVersion === ver.id
-              ? "bg-blue-600 text-white shadow-lg shadow-blue-600/30 scale-105"
-              : "bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/50"
-          }`}
-        >
-          {ver.name}
-        </button>
-      ))}
+      {filters.map((filter) => {
+        const isActive = selectedVersion === filter.id;
+        return (
+          <button
+            key={filter.id}
+            onClick={() => setSelectedVersion(filter.id)}
+            className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 border ${
+              isActive
+                ? "bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-600/30"
+                : "bg-slate-900/60 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white"
+            }`}
+          >
+            {language === "English" ? filter.labelEn : filter.labelBn}
+          </button>
+        );
+      })}
     </div>
   );
 }

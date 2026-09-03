@@ -11,6 +11,48 @@ export default function CartPage() {
   const [orderConfirmed, setOrderConfirmed] = useState(false);
 
   const handleConfirmOrder = (paymentData) => {
+    // ১. আপনার হোয়াটসঅ্যাপ নম্বর (কান্ট্রি কোড সহ)
+    const myWhatsAppNumber = "8801648582639";
+
+    // ২. বর্তমান তারিখ ও সময় বের করা (বাংলা ফরম্যাটে)
+    const now = new Date();
+    const formattedDateTime = now.toLocaleString("bn-BD", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+
+    // ৩. প্রোডাক্টগুলোর আইটেমাইজড সুন্দর ফরম্যাট
+    const itemsList = cart
+      .map(
+        (item, index) =>
+          `  ${index + 1}. 💻 *${item.name}*%0A      সংস্করণ: ${
+            item.versionName || "Windows"
+          }%0A      মূল্য: ৳${item.price}`,
+      )
+      .join("%0A%0A");
+
+    // ৪. তারিখ ও সময় সহ মেসেজ ফরম্যাট
+    const message =
+      `🚨 🛍️ *নতুন অর্ডার নোটিফিকেশন* 🛍️%0A` +
+      `━━━━━━━━━━━━━━━━━━━━━%0A%0A` +
+      `👤 *কাস্টমার ইনফরমেশন*%0A` +
+      `📞 যোগাযোগের নম্বর: \`${paymentData.contact}\`%0A%0A` +
+      `💳 *পেমেন্ট ডিটেইলস*%0A` +
+      `🔹 পেমেন্ট মেথড: *${paymentData.method}*%0A` +
+      `📱 সেন্ডার নম্বর: \`${paymentData.sender}\`%0A` +
+      `🔑 TrxID: \`${paymentData.trx || "দেওয়া হয়নি"}\`%0A` +
+      `💵 মোট পরিশোধিত: *৳${paymentData.amount}*%0A%0A` +
+      `📦 *অর্ডারকৃত প্রোডাক্ট (${cart.length}টি)*%0A` +
+      `━━━━━━━━━━━━━━━━━━━━━%0A` +
+      `${itemsList}%0A%0A` +
+      `━━━━━━━━━━━━━━━━━━━━━%0A` +
+      `🕒 *অর্ডারের সময়:* ${formattedDateTime}`;
+
+    // ৫. হোয়াটসঅ্যাপ লিঙ্ক ওপেন করা
+    const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${message}`;
+    window.open(whatsappUrl, "_blank");
+
+    // ৬. কার্ট ক্লিয়ার ও সাকসেস স্ক্রিন শো
     setIsModalOpen(false);
     clearCart();
     setOrderConfirmed(true);
@@ -20,10 +62,10 @@ export default function CartPage() {
     return (
       <div className="max-w-md mx-auto my-16 p-8 bg-slate-800/60 border border-slate-700 rounded-2xl text-center space-y-4">
         <CheckCircle2 className="w-16 h-16 text-green-400 mx-auto animate-bounce" />
-        <h2 className="text-2xl font-bold text-white">অর্ডার সফল হয়েছে!</h2>
+        <h2 className="text-2xl font-bold text-white">অর্ডার সফল হয়েছে!</h2>
         <p className="text-slate-300 text-sm leading-relaxed">
           আপনার পেমেন্ট ভেরিফাই করে আগামী ৫-১০ মিনিটের মধ্যে ইমেইল ও এসএমএস-এর
-          মাধ্যমে লাইসেন্স কি পাঠিয়ে দেওয়া হবে।
+          মাধ্যমে লাইসেন্স কি পাঠিয়ে দেওয়া হবে।
         </p>
         <Link
           to="/"
@@ -44,7 +86,7 @@ export default function CartPage() {
           আপনার কার্ট খালি!
         </h2>
         <p className="text-slate-400 mb-6 text-sm">
-          কার্টে কোনো উইন্ডোজ প্রোডাক্ট যোগ করা হয়নি।
+          কার্টে কোনো উইন্ডোজ প্রোডাক্ট যোগ করা হয়নি।
         </p>
         <Link
           to="/"

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { windowsData } from "../data/windowsData";
 import { CartContext } from "../context/CartContext";
+import { useLanguage } from "../context/LanguageContext";
 import {
   CheckCircle,
   ShieldCheck,
@@ -13,6 +14,7 @@ import {
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const { addToCart, cart } = useContext(CartContext);
+  const { t, language } = useLanguage();
 
   let targetEdition = null;
   let targetVersion = "";
@@ -30,13 +32,16 @@ export default function ProductDetailsPage() {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
         <h2 className="text-2xl font-bold text-white mb-4">
-          প্রোডাক্ট পাওয়া যায়নি!
+          {language === "English"
+            ? "Product not found!"
+            : "প্রোডাক্ট পাওয়া যায়নি!"}
         </h2>
         <Link
           to="/"
           className="text-blue-400 hover:underline flex items-center gap-2"
         >
-          <ArrowLeft className="w-4 h-4" /> হোম পেজে ফিরে যান
+          <ArrowLeft className="w-4 h-4" />{" "}
+          {language === "English" ? "Back to Home" : "হোম পেজে ফিরে যান"}
         </Link>
       </div>
     );
@@ -50,7 +55,10 @@ export default function ProductDetailsPage() {
         to="/"
         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition mb-8 text-sm"
       >
-        <ArrowLeft className="w-4 h-4" /> সব উইন্ডোজ প্রোডাক্ট দেখুন
+        <ArrowLeft className="w-4 h-4" />{" "}
+        {language === "English"
+          ? "View all Windows products"
+          : "সব উইন্ডোজ প্রোডাক্ট দেখুন"}
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -63,18 +71,18 @@ export default function ProductDetailsPage() {
               {targetEdition.name}
             </h1>
             <p className="text-slate-300 text-base leading-relaxed mb-6">
-              {targetEdition.desc}
+              {t(targetEdition.descKey)}
             </p>
 
             <div className="border-t border-slate-700/50 pt-6">
               <h3 className="text-lg font-semibold text-white mb-4">
-                মূল সুবিধাসমূহ:
+                {language === "English" ? "Key Features:" : "মূল সুবিধাসমূহ:"}
               </h3>
               <ul className="space-y-3 text-slate-300">
-                {targetEdition.features.map((feat, index) => (
+                {targetEdition.featureKeys.map((featKey, index) => (
                   <li key={index} className="flex items-center gap-3">
                     <CheckCircle className="w-5 h-5 text-blue-400 shrink-0" />
-                    <span>{feat}</span>
+                    <span>{t(featKey)}</span>
                   </li>
                 ))}
               </ul>
@@ -83,21 +91,28 @@ export default function ProductDetailsPage() {
 
           <div className="bg-slate-800/30 border border-slate-800 rounded-2xl p-6">
             <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-              <HelpCircle className="w-5 h-5 text-blue-400" /> কিভাবে অ্যাক্টিভ
-              করবেন?
+              <HelpCircle className="w-5 h-5 text-blue-400" />{" "}
+              {language === "English"
+                ? "How to Activate?"
+                : "কিভাবে অ্যাক্টিভ করবেন?"}
             </h3>
             <ol className="list-decimal list-inside space-y-2 text-slate-300 text-sm leading-relaxed">
               <li>
-                অর্ডার সম্পন্ন করার পর আপনার ইমেইল ও এসএমএস-এ ২৫ ডিজিটের
-                লাইসেন্স কি পাঠানো হবে।
+                {language === "English"
+                  ? "After completing the order, a 25-digit license key will be sent to your email and SMS."
+                  : "অর্ডার সম্পন্ন করার পর আপনার ইমেইল ও এসএমএস-এ ২৫ ডিজিটের লাইসেন্স কি পাঠানো হবে।"}
               </li>
               <li>
-                আপনার পিসির{" "}
-                <strong>Settings &gt; System &gt; Activation</strong> অপশনে যান।
+                {language === "English" ? "Go to your PC's " : "আপনার পিসির "}
+                <strong>Settings &gt; System &gt; Activation</strong>{" "}
+                {language === "English" ? "option." : "অপশনে যান।"}
               </li>
               <li>
-                <strong>Change Product Key</strong> বাটনে ক্লিক করে লাইসেন্স
-                কি-টি ইনপুট দিয়ে Activate করুন।
+                {language === "English" ? "Click on " : ""}
+                <strong>Change Product Key</strong>{" "}
+                {language === "English"
+                  ? "button and input the license key to activate."
+                  : "বাটনে ক্লিক করে লাইসেন্স কি-টি ইনপুট দিয়ে Activate করুন।"}
               </li>
             </ol>
           </div>
@@ -107,22 +122,34 @@ export default function ProductDetailsPage() {
           <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 sticky top-24 space-y-6">
             <div className="flex items-center gap-2 text-green-400 text-xs font-medium bg-green-500/10 px-3 py-1 rounded-full w-fit">
               <ShieldCheck className="w-4 h-4" />
-              <span>১০০% অফিশিয়াল লাইসেন্স</span>
+              <span>
+                {language === "English"
+                  ? "100% Official License"
+                  : "১০০% অফিশিয়াল লাইসেন্স"}
+              </span>
             </div>
 
             <div>
-              <span className="text-slate-400 text-sm">এককালীন মূল্য</span>
+              <span className="text-slate-400 text-sm">
+                {language === "English" ? "One-time Price" : "এককালীন মূল্য"}
+              </span>
               <div className="text-4xl font-extrabold text-white mt-1">
                 ৳{targetEdition.price}
               </div>
               <span className="text-slate-400 text-xs">
-                লাইফটাইম ইউজেজ ও আপডেট
+                {language === "English"
+                  ? "Lifetime Usage & Updates"
+                  : "লাইফটাইম ইউজেজ ও আপডেট"}
               </span>
             </div>
 
             <button
               onClick={() =>
-                addToCart({ ...targetEdition, versionName: targetVersion })
+                addToCart({
+                  ...targetEdition,
+                  desc: t(targetEdition.descKey),
+                  versionName: targetVersion,
+                })
               }
               disabled={isInCart}
               className={`w-full py-3 px-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all ${
@@ -132,12 +159,28 @@ export default function ProductDetailsPage() {
               }`}
             >
               <ShoppingCart className="w-5 h-5" />
-              <span>{isInCart ? "কার্টে যুক্ত আছে" : "কার্টে যোগ করুন"}</span>
+              <span>
+                {isInCart
+                  ? language === "English"
+                    ? "Added to Cart"
+                    : "কার্টে যুক্ত আছে"
+                  : language === "English"
+                    ? "Add to Cart"
+                    : "কার্টে যোগ করুন"}
+              </span>
             </button>
 
             <div className="text-xs text-slate-400 space-y-2 border-t border-slate-700/50 pt-4">
-              <p>✔ বিকাশ ও নগদে নিরাপদ পেমেন্ট</p>
-              <p>✔ ২৪/৭ টেকনিক্যাল সাপোর্ট সুবিধা</p>
+              <p>
+                {language === "English"
+                  ? "✔ Secure payment via bKash & Nagad"
+                  : "✔ বিকাশ ও নগদে নিরাপদ পেমেন্ট"}
+              </p>
+              <p>
+                {language === "English"
+                  ? "✔ 24/7 Technical Support"
+                  : "✔ ২৪/৭ টেকনিক্যাল সাপোর্ট সুবিধা"}
+              </p>
             </div>
           </div>
         </div>

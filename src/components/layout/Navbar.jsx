@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Monitor } from "lucide-react";
+import { ShoppingCart, Monitor, Globe } from "lucide-react";
 import { CartContext } from "../../context/CartContext";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function Navbar() {
   const { cart } = useContext(CartContext);
+  const { language, setLanguage, t } = useLanguage();
 
   return (
     <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-md border-b border-slate-800">
@@ -18,20 +20,39 @@ export default function Navbar() {
           <span>WinStore BD</span>
         </Link>
 
-        {/* Links & Cart Icon */}
-        <div className="flex items-center gap-6">
+        {/* Links, Language Toggle & Cart Icon */}
+        <div className="flex items-center gap-4 md:gap-6">
           <Link
             to="/"
-            className="hover:text-blue-400 transition font-medium text-sm"
+            className="hover:text-blue-400 transition font-medium text-sm hidden sm:block"
           >
-            হোম
+            {t("home")}
           </Link>
+
+          {/* 🌐 Language Switcher */}
+          <div className="flex items-center gap-1 bg-slate-800 border border-slate-700 rounded-xl px-2.5 py-1 text-xs">
+            <Globe className="w-3.5 h-3.5 text-blue-400" />
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="bg-transparent text-white font-medium focus:outline-none cursor-pointer py-1"
+            >
+              <option value="English" className="bg-slate-900 text-white">
+                EN
+              </option>
+              <option value="Bengali" className="bg-slate-900 text-white">
+                BN
+              </option>
+            </select>
+          </div>
+
+          {/* Cart Icon */}
           <Link
             to="/cart"
             className="relative flex items-center gap-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-xl text-sm font-medium transition shadow-lg shadow-blue-600/20"
           >
             <ShoppingCart className="w-4 h-4" />
-            <span>কার্ট</span>
+            <span>{t("cart")}</span>
             {cart.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-xs text-white font-bold px-2 py-0.5 rounded-full border-2 border-slate-900 animate-pulse">
                 {cart.length}

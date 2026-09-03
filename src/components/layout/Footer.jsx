@@ -1,5 +1,6 @@
 import React from "react";
 import { ShieldCheck, PhoneCall, Mail } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function Footer() {
   return (

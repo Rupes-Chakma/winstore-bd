@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CheckCircle, ShoppingCart, ShieldCheck } from "lucide-react";
 import { CartContext } from "../../context/CartContext";
+import { useLanguage } from "../../context/LanguageContext"; // ভাষা পরিবর্তন করার হুক ইম্পোর্ট করা হলো
 
 export default function ProductCard({ edition, versionName }) {
   const { addToCart, cart } = useContext(CartContext);
+  const { t } = useLanguage(); // ভাষা পড়ার জন্য t ফাংশন কল করা হলো
 
   const isInCart = cart.some((item) => item.id === edition.id);
 
@@ -17,31 +19,39 @@ export default function ProductCard({ edition, versionName }) {
           </span>
           <div className="flex items-center gap-1 text-green-400 text-xs font-medium bg-green-500/10 px-2.5 py-1 rounded-full">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>জেনুইন কি</span>
+            <span>{t("genuineKey") || "জেনুইন কি"}</span>
           </div>
         </div>
 
         <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
           {edition.name}
         </h3>
+
+        {/* বিবরণ ডায়নামিক বা নরমাল চেক */}
         <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-          {edition.desc}
+          {edition.descKey ? t(edition.descKey) : edition.desc}
         </p>
 
         <div className="mb-6 flex items-baseline gap-1">
           <span className="text-3xl font-extrabold text-white">
-            ৳{edition.price}
+            {t("currencySymbol") || "৳"}
+            {edition.price}
           </span>
-          <span className="text-slate-500 text-xs">/ লাইফটাইম</span>
+          <span className="text-slate-500 text-xs">
+            {t("lifetimeLabel") || "/ লাইফটাইম"}
+          </span>
         </div>
 
+        {/* ফিচার লিস্ট সেফ চেকসহ (Array undefined হলে ক্রাশ করবে না) */}
         <ul className="space-y-2.5 mb-6 text-sm text-slate-300">
-          {edition.features.map((feat, index) => (
-            <li key={index} className="flex items-center gap-2.5">
-              <CheckCircle className="w-4 h-4 text-blue-400 shrink-0" />
-              <span>{feat}</span>
-            </li>
-          ))}
+          {(edition.featureKeys || edition.features || []).map(
+            (feat, index) => (
+              <li key={index} className="flex items-center gap-2.5">
+                <CheckCircle className="w-4 h-4 text-blue-400 shrink-0" />
+                <span>{edition.featureKeys ? t(feat) : feat}</span>
+              </li>
+            ),
+          )}
         </ul>
       </div>
 
@@ -56,14 +66,18 @@ export default function ProductCard({ edition, versionName }) {
           }`}
         >
           <ShoppingCart className="w-4 h-4" />
-          <span>{isInCart ? "কার্টে যুক্ত আছে" : "কার্টে যোগ করুন"}</span>
+          <span>
+            {isInCart
+              ? t("addedToCart") || "কার্টে যুক্ত আছে"
+              : t("addToCart") || "কার্টে যোগ করুন"}
+          </span>
         </button>
 
         <Link
           to={`/product/${edition.id}`}
           className="block text-center w-full py-2 text-sm text-slate-400 hover:text-white transition-colors"
         >
-          বিস্তারিত দেখুন &rarr;
+          {t("viewDetails") || "বিস্তারিত দেখুন"} &rarr;
         </Link>
       </div>
     </div>

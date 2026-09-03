@@ -1,31 +1,34 @@
 import React from "react";
 import { Star, CheckCircle } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
 export default function Reviews() {
+  const { t } = useLanguage();
+
   const reviewsData = [
     {
       id: 1,
       name: "Rashedul Islam",
       product: "Windows 11 Pro",
       rating: 5,
-      date: "২ দিন আগে",
-      text: "খুব দ্রুত ইমেইলে লাইসেন্স কি পেয়েছি। পিসিতে অ্যাক্টিভ করতে কোনো ঝামেলা হয়নি। অরিজিনাল কি দেওয়ার জন্য ধন্যবাদ।",
+      date: t("revDate1"),
+      text: t("revText1"),
     },
     {
       id: 2,
       name: "Tanim Ahmed",
       product: "Windows 10 Pro",
       rating: 5,
-      date: "৫ দিন আগে",
-      text: "প্রাইস অনুযায়ী সার্ভিস অনেক ভালো। বিকাশ পেমেন্ট করার ৫ মিনিটের মাথায় লাইসেন্স কি মেসেজে চলে আসছে।",
+      date: t("revDate2"),
+      text: t("revText2"),
     },
     {
       id: 3,
       name: "Sajib Rahman",
       product: "Windows 11 Home",
       rating: 5,
-      date: "১ সপ্তাহ আগে",
-      text: "ল্যাপটপের জন্য নিয়েছিলাম। সাপোর্ট টিম খুব হেল্পফুল ছিল। ইনস্টল করতে সমস্যা হলে উনারা দেখিয়ে দিয়েছেন।",
+      date: t("revDate3"),
+      text: t("revText3"),
     },
   ];
 
@@ -33,9 +36,9 @@ export default function Reviews() {
     <section className="py-16">
       <div className="text-center mb-10">
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-          আমাদের গ্রাহকরা যা বলছেন
+          {t("reviewsTitleMain")}
         </h2>
-        <p className="text-slate-400">১০০০+ সন্তুষ্ট গ্রাহকের বিশ্বাস</p>
+        <p className="text-slate-400">{t("reviewsSubMain")}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
@@ -46,7 +49,7 @@ export default function Reviews() {
           >
             <div className="absolute -top-3 -right-3 bg-green-500/10 border border-green-500/20 text-green-400 text-xs px-2.5 py-1 rounded-full flex items-center gap-1 backdrop-blur-md">
               <CheckCircle className="w-3 h-3" />
-              Verified Buyer
+              {t("verifiedBuyer")}
             </div>
 
             <div className="flex gap-1 text-yellow-400 mb-4">
