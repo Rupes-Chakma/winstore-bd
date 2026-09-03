@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, CheckCircle, Copy, QrCode } from "lucide-react";
+import { X, CheckCircle, Copy, QrCode, AlertCircle } from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
 
 export default function CheckoutModal({
@@ -33,11 +33,25 @@ export default function CheckoutModal({
 
   if (!isOpen) return null;
 
-  // ১. ফোন নম্বর ভ্যালিডেশন
+  // বাংলাদেশি ১১ ডিজিটের সঠিক নম্বর ভ্যালিডেশন (015, 016, 017 ইত্যাদি সহ)
+  const validateNumber = (value) => {
+    const bdPhoneRegex = /^01[3-9]\d{8}$/;
+    if (value.length > 0 && !bdPhoneRegex.test(value)) {
+      setErrorMsg(
+        t("phoneError") ||
+          "সঠিক ১১ ডিজিটের বাংলাদেশি মোবাইল নম্বর দিন (+880 বা অন্য কোনো কান্ট্রি কোড গ্রহণযোগ্য নয়)",
+      );
+    } else {
+      setErrorMsg(""); // টিকমতোন ফরম্যাটে আসলে অ্যালার্ট চলে যাবে
+    }
+  };
+
+  // ১. ফোন নম্বর ইনপুট হ্যান্ডলার
   const handlePhoneChange = (e) => {
     const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 11) {
       setSenderNumber(value);
+      validateNumber(value);
     }
   };
 
@@ -64,7 +78,7 @@ export default function CheckoutModal({
     if (!bdPhoneRegex.test(senderNumber)) {
       setErrorMsg(
         t("phoneError") ||
-          "সঠিক ১১ ডিজিটের বাংলাদেশি ফোন নম্বর দিন (যেমন: 017xxxxxxxx)",
+          "সঠিক ১১ ডিজিটের বাংলাদেশি মোবাইল নম্বর দিন (যেমন: 017XXXXXXXX)",
       );
       return;
     }
@@ -133,10 +147,10 @@ export default function CheckoutModal({
                   className={`py-2.5 rounded-xl font-bold text-sm border transition flex items-center justify-center ${
                     paymentMethod === method
                       ? method === "bKash"
-                        ? "bg-pink-600 text-white border-pink-500"
+                        ? "bg-pink-600 text-white border-pink-500 shadow-lg shadow-pink-600/30"
                         : method === "Nagad"
-                          ? "bg-orange-600 text-white border-orange-500"
-                          : "bg-purple-600 text-white border-purple-500"
+                          ? "bg-orange-600 text-white border-orange-500 shadow-lg shadow-orange-600/30"
+                          : "bg-purple-600 text-white border-purple-500 shadow-lg shadow-purple-600/30"
                       : "bg-slate-800/50 border-slate-700/60 text-slate-300 hover:bg-slate-800"
                   }`}
                 >
@@ -218,16 +232,19 @@ export default function CheckoutModal({
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* ফরমাল প্লেসহোল্ডার (পেমেন্ট করা নম্বর লেখার জন্য) */}
               <input
                 type="text"
                 required
                 value={senderNumber}
                 onChange={handlePhoneChange}
-                placeholder={
-                  t("senderPlaceholder") ||
-                  `আপনার ${paymentMethod} নম্বর (১১ ডিজিট)`
-                }
-                className="bg-slate-950/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition"
+                maxLength={11}
+                placeholder={`পেমেন্টকৃত নম্বর (যেমন: 017XXXXXXXX)`}
+                className={`bg-slate-950/60 border rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition ${
+                  errorMsg
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-slate-800 focus:border-blue-500"
+                }`}
               />
               <input
                 type="text"
@@ -238,8 +255,12 @@ export default function CheckoutModal({
               />
             </div>
 
+            {/* ভুল ফরম্যাট বা অন্য কান্ট্রি কোড দিলে অ্যালার্ট দেখাবে, ঠিক হলে নিজে থেকে চলে যাবে */}
             {errorMsg && (
-              <p className="text-xs text-rose-400 font-medium">{errorMsg}</p>
+              <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 text-red-400 p-2.5 rounded-xl text-xs">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{errorMsg}</span>
+              </div>
             )}
           </div>
 
