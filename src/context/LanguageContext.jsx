@@ -132,7 +132,7 @@ const translations = {
     buyNow: "Buy Now",
     price: "Price:",
 
-    // Checkout Modal
+    // Checkout Modal (Updated & Added)
     checkoutTitle: "Checkout Details",
     nameLabel: "Your Name",
     phoneLabel: "Phone Number",
@@ -147,11 +147,21 @@ const translations = {
     scanWithApp: "Scan using mobile banking app",
     copy: "Copy",
     copied: "Copied!",
-    providePaymentInfo: "Provide Payment Details",
-    contactPlaceholder: "Email or WhatsApp number (where key will be sent)",
-    senderPlaceholder: "Your Payment Number (11 digits)",
-    trxPlaceholder: "TRXID (Optional)",
-    phoneError: "Please enter a valid 11-digit Bangladeshi phone number",
+    providePaymentInfo: "Provide Payment Information",
+    contactPlaceholder: "Your Email or WhatsApp number (for delivery)",
+    senderPlaceholder: "Sender bKash/Nagad Number (e.g., 017XXXXXXXX)",
+    trxPlaceholder: " Transaction ID / TrxID (e.g., 9N7A... - Optional)",
+    phoneError:
+      "Please enter a valid 11-digit Bangladeshi mobile number (e.g., 017XXXXXXXX)",
+
+    secureCheckout: "Secure Checkout",
+    completePaymentSecurely: "Complete your payment securely",
+    totalPayableAmount: "Total Payable Amount",
+    encryptedAndSecure: "Encrypted & Secure",
+    sendMoneyToThisNumber: "Send Money to this number",
+    viewNumber: "View Number",
+    qrCode: "QR Code",
+    confirmPayment: "Confirm Payment",
 
     // FAQ Section
     faqTitle: "Frequently Asked Questions",
@@ -252,7 +262,7 @@ const translations = {
     win10HomeFeature3: "লাইফটাইম ডিজিটাল লাইসেন্স",
 
     win10EntDesc:
-      "ব্যবসায়িক পরিবেশ ও এন্টারপ্রাইজ লেভেলের ম্যানেজমেন্ট এবং সিকিউরিটি।",
+      "ব্যবসায়িক পরিবেশ ও এন্টারপ্রাইজ লেভেলের ম্যানেজমেন্ট এবং সিকিউরিটি।",
     win10EntFeature1: "অ্যাডভান্সড এন্টারপ্রাইজ সিকিউরিটি",
     win10EntFeature2: "সেন্ট্রালাইজড আইটি ম্যানেজমেন্ট",
     win10EntFeature3: "লাইফটাইম ভলিউম লাইসেন্স",
@@ -295,7 +305,7 @@ const translations = {
     office2019Feature2: "ক্লাসিক ২০১৯ অ্যাপস ভার্সন",
     office2019Feature3: "১ পিসির জন্য লাইফটাইম অ্যাক্টিভেশন",
 
-    office365Desc: "সবসময় আপডেট প্রিমিয়াম অ্যাপস এবং ক্লাউড স্টোরেজ সুবিধা।",
+    office365Desc: "সবসময় আপডেট প্রিমিয়াম অ্যাপস এবং ক্লাউড স্টোরেজ সুবিধা।",
     office365Feature1: "সর্বোচ্চ ৫টি ডিভাইসে ব্যবহারযোগ্য",
     office365Feature2: "ক্লাউড স্টোরেজ সুবিধা",
     office365Feature3: "সর্বদা সর্বশেষ অ্যাপ আপডেট",
@@ -307,7 +317,7 @@ const translations = {
     buyNow: "এখনই কিনুন",
     price: "মূল্য:",
 
-    // Checkout Modal
+    // Checkout Modal (Updated & Added)
     checkoutTitle: "অর্ডার কনফার্ম করুন",
     nameLabel: "আপনার নাম",
     phoneLabel: "মোবাইল নম্বর",
@@ -324,9 +334,18 @@ const translations = {
     copied: "কপি হয়েছে!",
     providePaymentInfo: "পেমেন্টের তথ্য দিন",
     contactPlaceholder: "ইমেইল বা হোয়াটসঅ্যাপ নম্বর (যেখানে কি পাঠানো হবে)",
-    senderPlaceholder: "আপনার নম্বর (১১ ডিজিট)",
+    senderPlaceholder: "প্রেরক নম্বর (০১৭XXXXXXXX)",
     trxPlaceholder: "TRXID (ঐচ্ছিক)",
     phoneError: "সঠিক ১১ ডিজিটের বাংলাদেশি ফোন নম্বর দিন",
+
+    secureCheckout: "নিরাপদ চেকআউট",
+    completePaymentSecurely: "আপনার পেমেন্টটি নিরাপদে সম্পন্ন করুন",
+    totalPayableAmount: "সর্বমোট প্রদেয় পরিমাণ",
+    encryptedAndSecure: "এনক্রিপ্টেড ও নিরাপদ",
+    sendMoneyToThisNumber: "এই নম্বরে Send Money করুন",
+    viewNumber: "নম্বর দেখুন",
+    qrCode: "QR কোড",
+    confirmPayment: "পেমেন্ট নিশ্চিত করুন",
 
     // FAQ Section
     faqTitle: "সাধারণ জিজ্ঞাসা (FAQ)",
@@ -354,6 +373,7 @@ const translations = {
 };
 
 export const LanguageProvider = ({ children }) => {
+  // আপনার কোড অনুযায়ী ডিফল্ট ল্যাঙ্গুয়েজ 'Bengali' সেট করা আছে
   const [language, setLanguage] = useState("Bengali");
 
   const t = (key) => {

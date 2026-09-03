@@ -1,55 +1,139 @@
 import React from "react";
-import { ShieldCheck, PhoneCall, Mail } from "lucide-react";
+import {
+  ShieldCheck,
+  PhoneCall,
+  Mail,
+  Zap,
+  Lock,
+  Sparkles,
+  Heart,
+} from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
 
 export default function Footer() {
+  const { language } = useLanguage();
+
   return (
-    <footer className="bg-slate-900 text-gray-300 pt-10 pb-6 border-t border-slate-800 mt-16">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-        <div>
-          <h3 className="text-xl font-bold text-white mb-3">WinStore BD</h3>
-          <p className="text-sm text-gray-400 leading-relaxed">
-            আমরা প্রদান করি ১০০% অরিজিনাল ও জেনুইন উইন্ডোজ প্রোডাক্ট কি।
-            লাইফটাইম অ্যাক্টিভেশন ও ১-টু-১ ইনস্ট্যান্ট সাপোর্টের বিশ্বস্ত
-            মাধ্যম।
-          </p>
-        </div>
+    <footer className="bg-slate-950 text-gray-300 relative overflow-hidden border-t border-slate-800/80 mt-16">
+      {/* Top Background Glow Effect */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-32 bg-blue-600/5 blur-[120px] pointer-events-none rounded-full"></div>
 
-        <div>
-          <h4 className="text-lg font-semibold text-white mb-3">
-            কেন আমাদের বেছে নেবেন?
-          </h4>
-          <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-green-400" /> ১০০% অরিজিনাল
-              লাইসেন্স কি
-            </li>
-            <li className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-green-400" /> ইনস্ট্যান্ট
-              ইমেইল ও এসএমএস ডেলিভারি
-            </li>
-            <li className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-green-400" /> বিকাশ/নগদে
-              নিরাপদ পেমেন্ট
-            </li>
-          </ul>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 pt-16 pb-10 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 pb-12 border-b border-slate-800/60">
+          {/* Column 1: Brand Info */}
+          <div className="flex flex-col items-start space-y-4">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-black text-white tracking-tight bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
+                WinStore BD
+              </span>
+              <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                {language === "English" ? "Official" : "অফিসিয়াল"}
+              </span>
+            </div>
+            <p className="text-sm text-gray-400 leading-relaxed">
+              {language === "English"
+                ? "We provide 100% original and genuine Windows product keys with lifetime activation and 1-to-1 instant trusted support."
+                : "আমরা প্রদান করি ১০০% অরিজিনাল ও জেনুইন উইন্ডোজ প্রোডাক্ট কি। লাইফটাইম অ্যাক্টিভেশন ও ১-টু-১ ইনস্ট্যান্ট সাপোর্টের বিশ্বস্ত মাধ্যম।"}
+            </p>
+            <div className="inline-flex items-center gap-2 text-xs text-amber-400 bg-amber-400/10 border border-amber-400/20 px-3 py-1.5 rounded-xl font-medium">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>
+                {language === "English"
+                  ? "Trusted Digital Software Store"
+                  : "বিশ্বস্ত ডিজিটাল সফটওয়্যার স্টোর"}
+              </span>
+            </div>
+          </div>
 
-        <div>
-          <h4 className="text-lg font-semibold text-white mb-3">যোগাযোগ</h4>
-          <div className="space-y-2 text-sm text-gray-400">
-            <p className="flex items-center gap-2">
-              <PhoneCall className="w-4 h-4 text-blue-400" /> +880 1648-582639
+          {/* Column 2: Why Choose Us */}
+          <div className="flex flex-col items-start space-y-4">
+            <h4 className="text-white font-bold text-lg tracking-wide relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-0.5 after:bg-blue-500">
+              {language === "English"
+                ? "Why Choose Us?"
+                : "কেন আমাদের বেছে নেবেন?"}
+            </h4>
+            <ul className="space-y-3 text-sm text-gray-300 w-full">
+              <li className="flex items-center gap-3 bg-slate-900/60 border border-slate-800/80 px-3.5 py-2.5 rounded-xl hover:border-blue-500/40 transition-colors">
+                <ShieldCheck className="w-4 h-4 text-green-400 shrink-0" />
+                <span>
+                  {language === "English"
+                    ? "100% Original License Key"
+                    : "১০০% অরিজিনাল লাইসেন্স কি"}
+                </span>
+              </li>
+              <li className="flex items-center gap-3 bg-slate-900/60 border border-slate-800/80 px-3.5 py-2.5 rounded-xl hover:border-blue-500/40 transition-colors">
+                <Zap className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>
+                  {language === "English"
+                    ? "Instant Email & SMS Delivery"
+                    : "ইনস্ট্যান্ট ইমেইল ও এসএমএস ডেলিভারি"}
+                </span>
+              </li>
+              <li className="flex items-center gap-3 bg-slate-900/60 border border-slate-800/80 px-3.5 py-2.5 rounded-xl hover:border-blue-500/40 transition-colors">
+                <Lock className="w-4 h-4 text-blue-400 shrink-0" />
+                <span>
+                  {language === "English"
+                    ? "Secure Payment via bKash/Nagad"
+                    : "বিকাশ/নগদে নিরাপদ পেমেন্ট"}
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Contact */}
+          <div className="flex flex-col items-start space-y-4">
+            <h4 className="text-white font-bold text-lg tracking-wide relative pb-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-10 after:h-0.5 after:bg-blue-500">
+              {language === "English" ? "Contact Us" : "যোগাযোগ"}
+            </h4>
+            <p className="text-gray-400 text-sm">
+              {language === "English"
+                ? "Have any questions? Feel free to reach out to us anytime."
+                : "যেকোনো প্রয়োজনে আমাদের সাথে যোগাযোগ করতে পারেন।"}
             </p>
-            <p className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-blue-400" /> support@winstorebd.com
-            </p>
+            <div className="space-y-3 w-full text-sm">
+              <a
+                href="tel:+8801648582639"
+                className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 hover:border-blue-500 p-3 rounded-xl transition-all group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                  <PhoneCall className="w-4 h-4" />
+                </div>
+                <span className="text-white font-medium tracking-wider">
+                  +880 1648-582639
+                </span>
+              </a>
+
+              <a
+                href="mailto:support@winstorebd.com"
+                className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 hover:border-blue-500 p-3 rounded-xl transition-all group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                  <Mail className="w-4 h-4" />
+                </div>
+                <span className="text-gray-300 font-medium">
+                  support@winstorebd.com
+                </span>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="text-center text-xs text-gray-500 border-t border-slate-800 pt-4">
-        &copy; {new Date().getFullYear()} WinStore BD. All rights reserved.
+        {/* Bottom Copyright Section */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+          <p>
+            &copy; {new Date().getFullYear()} WinStore BD.{" "}
+            {language === "English"
+              ? "All rights reserved."
+              : "সর্বস্বত্ব সংরক্ষিত।"}
+          </p>
+          <p className="flex items-center gap-1.5 text-gray-400">
+            {language === "English" ? "Crafted with" : "তৈরি করা হয়েছে"}{" "}
+            <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500" />{" "}
+            {language === "English"
+              ? "for better experience"
+              : "সেরা অভিজ্ঞতার জন্য"}
+          </p>
+        </div>
       </div>
     </footer>
   );
