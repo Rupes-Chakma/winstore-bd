@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { windowsData } from "../data/windowsData";
 import { CartContext } from "../context/CartContext";
@@ -10,11 +10,14 @@ import {
   ShoppingCart,
   HelpCircle,
 } from "lucide-react";
+// আপনি চাইলে react-hot-toast ইনস্টল করে নিচের টোস্টটি ব্যবহার করতে পারেন (npm install react-hot-toast)
+// import toast from "react-hot-toast";
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const { addToCart, cart } = useContext(CartContext);
   const { t, language } = useLanguage();
+  const [isAdding, setIsAdding] = useState(false); // বাটনে ক্লিক অ্যানিমেশন বা ফিডব্যাকের জন্য
 
   let targetEdition = null;
   let targetVersion = "";
@@ -30,7 +33,7 @@ export default function ProductDetailsPage() {
 
   if (!targetEdition) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 animate-fade-in">
         <h2 className="text-2xl font-bold text-white mb-4">
           {language === "English"
             ? "Product not found!"
@@ -38,7 +41,7 @@ export default function ProductDetailsPage() {
         </h2>
         <Link
           to="/"
-          className="text-blue-400 hover:underline flex items-center gap-2"
+          className="text-blue-400 hover:underline flex items-center gap-2 transition"
         >
           <ArrowLeft className="w-4 h-4" />{" "}
           {language === "English" ? "Back to Home" : "হোম পেজে ফিরে যান"}
@@ -49,8 +52,34 @@ export default function ProductDetailsPage() {
 
   const isInCart = cart.some((item) => item.id === targetEdition.id);
 
+  const handleAddToCart = () => {
+    setIsAdding(true);
+
+    // কার্টে অ্যাড করার ফাংশন কল
+    addToCart({
+      ...targetEdition,
+      desc: t(targetEdition.descKey),
+      versionName: targetVersion,
+    });
+
+    // টোস্ট নোটিফিকেশন (যদি react-hot-toast ইন্সটল করা থাকে)
+    /*
+    toast.success(
+      language === "English" ? "Added to Cart successfully!" : "কার্টে সফলভাবে যুক্ত করা হয়েছে!",
+      {
+        style: { background: '#1e293b', color: '#fff', border: '1px solid #334155' },
+      }
+    );
+    */
+
+    // অল্প একটু সময় পর অ্যানিমেশন স্টেট রিসেট করা
+    setTimeout(() => {
+      setIsAdding(false);
+    }, 600);
+  };
+
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="max-w-5xl mx-auto px-4 py-10 animate-fade-in">
       <Link
         to="/"
         className="inline-flex items-center gap-2 text-slate-400 hover:text-white transition mb-8 text-sm"
@@ -63,18 +92,18 @@ export default function ProductDetailsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-8">
-          <div className="bg-slate-800/50 border border-slate-700/60 rounded-2xl p-6 md:p-8">
-            <span className="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1 rounded-full">
+          <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-6 md:p-8 shadow-2xl">
+            <span className="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3.5 py-1.5 rounded-full inline-block">
               {targetEdition.type} Edition
             </span>
-            <h1 className="text-3xl font-extrabold text-white mt-4 mb-2">
+            <h1 className="text-3xl font-extrabold text-white mt-4 mb-2 tracking-tight">
               {targetEdition.name}
             </h1>
             <p className="text-slate-300 text-base leading-relaxed mb-6">
               {t(targetEdition.descKey)}
             </p>
 
-            <div className="border-t border-slate-700/50 pt-6">
+            <div className="border-t border-slate-800/80 pt-6">
               <h3 className="text-lg font-semibold text-white mb-4">
                 {language === "English" ? "Key Features:" : "মূল সুবিধাসমূহ:"}
               </h3>
@@ -89,7 +118,7 @@ export default function ProductDetailsPage() {
             </div>
           </div>
 
-          <div className="bg-slate-800/30 border border-slate-800 rounded-2xl p-6">
+          <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/80 rounded-3xl p-6 shadow-xl">
             <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
               <HelpCircle className="w-5 h-5 text-blue-400" />{" "}
               {language === "English"
@@ -104,12 +133,14 @@ export default function ProductDetailsPage() {
               </li>
               <li>
                 {language === "English" ? "Go to your PC's " : "আপনার পিসির "}
-                <strong>Settings &gt; System &gt; Activation</strong>{" "}
+                <strong className="text-white">
+                  Settings &gt; System &gt; Activation
+                </strong>{" "}
                 {language === "English" ? "option." : "অপশনে যান।"}
               </li>
               <li>
                 {language === "English" ? "Click on " : ""}
-                <strong>Change Product Key</strong>{" "}
+                <strong className="text-white">Change Product Key</strong>{" "}
                 {language === "English"
                   ? "button and input the license key to activate."
                   : "বাটনে ক্লিক করে লাইসেন্স কি-টি ইনপুট দিয়ে Activate করুন।"}
@@ -119,8 +150,8 @@ export default function ProductDetailsPage() {
         </div>
 
         <div>
-          <div className="bg-slate-800/80 border border-slate-700/60 rounded-2xl p-6 sticky top-24 space-y-6">
-            <div className="flex items-center gap-2 text-green-400 text-xs font-medium bg-green-500/10 px-3 py-1 rounded-full w-fit">
+          <div className="bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 rounded-3xl p-6 sticky top-24 space-y-6 shadow-2xl">
+            <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full w-fit">
               <ShieldCheck className="w-4 h-4" />
               <span>
                 {language === "English"
@@ -130,13 +161,13 @@ export default function ProductDetailsPage() {
             </div>
 
             <div>
-              <span className="text-slate-400 text-sm">
+              <span className="text-slate-400 text-xs uppercase tracking-wider font-medium">
                 {language === "English" ? "One-time Price" : "এককালীন মূল্য"}
               </span>
               <div className="text-4xl font-extrabold text-white mt-1">
                 ৳{targetEdition.price}
               </div>
-              <span className="text-slate-400 text-xs">
+              <span className="text-slate-400 text-xs mt-0.5 block">
                 {language === "English"
                   ? "Lifetime Usage & Updates"
                   : "লাইফটাইম ইউজেজ ও আপডেট"}
@@ -144,42 +175,46 @@ export default function ProductDetailsPage() {
             </div>
 
             <button
-              onClick={() =>
-                addToCart({
-                  ...targetEdition,
-                  desc: t(targetEdition.descKey),
-                  versionName: targetVersion,
-                })
-              }
-              disabled={isInCart}
-              className={`w-full py-3 px-4 rounded-xl font-medium flex items-center justify-center gap-2 transition-all ${
+              onClick={handleAddToCart}
+              disabled={isInCart || isAdding}
+              className={`w-full py-3.5 px-4 rounded-xl font-bold text-sm tracking-wide flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer active:scale-[0.98] ${
                 isInCart
-                  ? "bg-slate-700 text-slate-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20"
+                  ? "bg-slate-800/80 text-slate-400 border border-slate-700/50 cursor-not-allowed"
+                  : isAdding
+                    ? "bg-blue-500 text-white scale-95 shadow-lg shadow-blue-500/30"
+                    : "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25"
               }`}
             >
-              <ShoppingCart className="w-5 h-5" />
+              <ShoppingCart
+                className={`w-5 h-5 ${isAdding ? "animate-bounce" : ""}`}
+              />
               <span>
                 {isInCart
                   ? language === "English"
                     ? "Added to Cart"
                     : "কার্টে যুক্ত আছে"
-                  : language === "English"
-                    ? "Add to Cart"
-                    : "কার্টে যোগ করুন"}
+                  : isAdding
+                    ? language === "English"
+                      ? "Adding..."
+                      : "যুক্ত হচ্ছে..."
+                    : language === "English"
+                      ? "Add to Cart"
+                      : "কার্টে যোগ করুন"}
               </span>
             </button>
 
-            <div className="text-xs text-slate-400 space-y-2 border-t border-slate-700/50 pt-4">
-              <p>
+            <div className="text-xs text-slate-400 space-y-2 border-t border-slate-800/80 pt-4">
+              <p className="flex items-center gap-1.5">
+                <span className="text-emerald-400 font-bold">✔</span>
                 {language === "English"
-                  ? "✔ Secure payment via bKash & Nagad"
-                  : "✔ বিকাশ ও নগদে নিরাপদ পেমেন্ট"}
+                  ? "Secure payment via bKash & Nagad"
+                  : "বিকাশ ও নগদে নিরাপদ পেমেন্ট"}
               </p>
-              <p>
+              <p className="flex items-center gap-1.5">
+                <span className="text-emerald-400 font-bold">✔</span>
                 {language === "English"
-                  ? "✔ 24/7 Technical Support"
-                  : "✔ ২৪/৭ টেকনিক্যাল সাপোর্ট সুবিধা"}
+                  ? "24/7 Technical Support"
+                  : "২৪/৭ টেকনিক্যাল সাপোর্ট সুবিধা"}
               </p>
             </div>
           </div>

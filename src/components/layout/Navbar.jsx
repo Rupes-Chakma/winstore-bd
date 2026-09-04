@@ -8,12 +8,21 @@ export default function Navbar() {
   const { cart } = useContext(CartContext);
   const { language, setLanguage, t } = useLanguage();
 
+  // লোগো বা হোম লিঙ্কে ক্লিক করলে স্মুথলি একদম উপরে স্ক্রল করার ফাংশন
+  const handleLogoClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <nav className="bg-slate-900 text-white sticky top-0 z-50 shadow-md border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         {/* Logo */}
         <Link
           to="/"
+          onClick={handleLogoClick}
           className="flex items-center gap-2 text-xl font-bold text-blue-400 hover:text-blue-300 transition"
         >
           <Monitor className="w-6 h-6" />
@@ -24,6 +33,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4 md:gap-6">
           <Link
             to="/"
+            onClick={handleLogoClick}
             className="hover:text-blue-400 transition font-medium text-sm hidden sm:block"
           >
             {t("home")}

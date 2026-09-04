@@ -6,6 +6,7 @@ import {
   QrCode,
   AlertCircle,
   ShieldCheck,
+  Loader2, // লোডিং আইকন ইমপোর্ট করা হলো
 } from "lucide-react";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -19,6 +20,7 @@ export default function CheckoutModal({
   const [paymentMethod, setPaymentMethod] = useState("bKash");
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // লোডিং স্টেট যুক্ত করা হলো
 
   // Form States
   const [contactInfo, setContactInfo] = useState("");
@@ -95,13 +97,18 @@ export default function CheckoutModal({
       amount: totalAmount,
     };
 
-    if (onConfirm && typeof onConfirm === "function") {
-      onConfirm(paymentData);
-    }
+    setIsSubmitting(true); // প্রসেসিং শুরু
 
-    setContactInfo("");
-    setSenderNumber("");
-    setTrxId("");
+    // ১ সেকেন্ডের একটি স্মুথ ডিলে দিয়ে প্রসেসিং ফিডব্যাক দেখানো হচ্ছে
+    setTimeout(() => {
+      if (onConfirm && typeof onConfirm === "function") {
+        onConfirm(paymentData);
+      }
+      setIsSubmitting(false); // প্রসেসিং শেষ
+      setContactInfo("");
+      setSenderNumber("");
+      setTrxId("");
+    }, 1000);
   };
 
   return (
@@ -125,7 +132,7 @@ export default function CheckoutModal({
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-800 transition"
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-800/50 text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -165,7 +172,7 @@ export default function CheckoutModal({
                       setPaymentMethod(method);
                       setShowQR(false);
                     }}
-                    className={`py-2.5 px-3 rounded-xl font-bold text-xs tracking-wide border transition-all flex items-center justify-center ${
+                    className={`py-2.5 px-3 rounded-xl font-bold text-xs tracking-wide border transition-all flex items-center justify-center cursor-pointer ${
                       isActive
                         ? method === "bKash"
                           ? "bg-pink-600/90 text-white border-pink-500 shadow-lg shadow-pink-600/20 ring-1 ring-pink-400"
@@ -191,7 +198,7 @@ export default function CheckoutModal({
               <button
                 type="button"
                 onClick={() => setShowQR(!showQR)}
-                className="text-xs flex items-center gap-1.5 text-blue-400 hover:text-blue-300 font-medium transition"
+                className="text-xs flex items-center gap-1.5 text-blue-400 hover:text-blue-300 font-medium transition cursor-pointer"
               >
                 <QrCode className="w-3.5 h-3.5" />
                 {showQR
@@ -224,7 +231,7 @@ export default function CheckoutModal({
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700/80 border border-slate-700/60 px-3 py-1.5 rounded-lg text-slate-200 transition font-medium"
+                  className="flex items-center gap-1 text-xs bg-slate-800 hover:bg-slate-700/80 border border-slate-700/60 px-3 py-1.5 rounded-lg text-slate-200 transition font-medium cursor-pointer"
                 >
                   <Copy className="w-3.5 h-3.5 text-slate-400" />
                   {copied ? t("copied") || "Copied!" : t("copy") || "Copy"}
@@ -284,13 +291,23 @@ export default function CheckoutModal({
             )}
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button with Loading State */}
           <button
             type="submit"
-            className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm tracking-wide rounded-xl shadow-lg shadow-blue-600/25 transition-all flex items-center justify-center gap-2 mt-2 cursor-pointer active:scale-[0.98]"
+            disabled={isSubmitting}
+            className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm tracking-wide rounded-xl shadow-lg shadow-blue-600/25 transition-all flex items-center justify-center gap-2 mt-2 cursor-pointer active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            <CheckCircle className="w-4 h-4" />
-            {t("confirmPayment") || "Confirm Payment"}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
+                <span>{t("processing") || "Processing Payment..."}</span>
+              </>
+            ) : (
+              <>
+                <CheckCircle className="w-4 h-4" />
+                <span>{t("confirmPayment") || "Confirm Payment"}</span>
+              </>
+            )}
           </button>
         </form>
       </div>
