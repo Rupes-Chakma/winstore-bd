@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { windowsData } from "../data/windowsData";
 import { CartContext } from "../context/CartContext";
@@ -14,6 +14,11 @@ import {
 // import toast from "react-hot-toast";
 
 export default function ProductDetailsPage() {
+  // পেজ ওপেন বা রেন্ডার হওয়ার সাথে সাথে স্ক্রিন একদম উপরে নিয়ে যাওয়ার জন্য
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const { id } = useParams();
   const { addToCart, cart } = useContext(CartContext);
   const { t, language } = useLanguage();
@@ -62,17 +67,7 @@ export default function ProductDetailsPage() {
       versionName: targetVersion,
     });
 
-    // টোস্ট নোটিফিকেশন (যদি react-hot-toast ইন্সটল করা থাকে)
-    /*
-    toast.success(
-      language === "English" ? "Added to Cart successfully!" : "কার্টে সফলভাবে যুক্ত করা হয়েছে!",
-      {
-        style: { background: '#1e293b', color: '#fff', border: '1px solid #334155' },
-      }
-    );
-    */
-
-    // অল্প একটু সময় পর অ্যানিমেশন স্টেট রিসেট করা
+    // অল্প একটু সময় পর অ্যানিমেশন স্টেট রিসেট করা
     setTimeout(() => {
       setIsAdding(false);
     }, 600);
