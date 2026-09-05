@@ -317,7 +317,7 @@ export default function CheckoutModal({
                   value={senderNumber}
                   onChange={handlePhoneChange}
                   maxLength={11}
-                  placeholder="Sender Number (e.g. 01XXXXXXXXX)"
+                  placeholder="Enter payment number (Sender Number)"
                   className={`w-full bg-slate-950/60 border rounded-xl px-3.5 py-3 text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition font-mono ${
                     senderError
                       ? "border-red-500/80 focus:border-red-500"
