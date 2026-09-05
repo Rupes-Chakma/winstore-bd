@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { useLanguage } from "../context/LanguageContext";
@@ -11,6 +11,11 @@ export default function CartPage() {
   const { language } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderConfirmed, setOrderConfirmed] = useState(false);
+
+  // পেজ লোড হওয়ার সাথে সাথে যেন স্ক্রোল একদম ওপর থেকে শুরু হয়
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const handleConfirmOrder = (paymentData) => {
     const myWhatsAppNumber = "8801648582639";
@@ -30,7 +35,7 @@ export default function CartPage() {
       )
       .join("%0A%0A");
 
-    // ডায়নামিক কাস্টমার ইনফরমেশন ব্লক (যা থাকবে শুধু সেটাই শো করবে)
+    // ডায়নামিক কাস্টমার ইনফরমেশন ব্লক (যা থাকবে শুধু সেটাই শো করবে)
     let customerInfoLines = [];
     if (paymentData.contact) {
       customerInfoLines.push(`• Contact / Email: ${paymentData.contact}`);
@@ -117,7 +122,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
+    <div id="shopping-cart-section" className="max-w-4xl mx-auto px-4 py-10">
       <h1 className="text-2xl md:text-3xl font-bold text-white mb-8">
         {language === "English" ? "Your Shopping Cart" : "আপনার শপিং কার্ট"}
       </h1>

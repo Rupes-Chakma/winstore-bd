@@ -61,6 +61,7 @@ export default function Navbar() {
           {/* Cart Icon */}
           <Link
             to="/cart"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="relative flex items-center gap-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-xl text-sm font-medium transition shadow-lg shadow-blue-600/20"
           >
             <ShoppingCart className="w-4 h-4" />
