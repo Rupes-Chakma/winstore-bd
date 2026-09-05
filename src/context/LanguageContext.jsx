@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const LanguageContext = createContext();
 
@@ -132,7 +132,7 @@ const translations = {
     buyNow: "Buy Now",
     price: "Price:",
 
-    // Checkout Modal (Updated & Added)
+    // Checkout Modal
     checkoutTitle: "Checkout Details",
     nameLabel: "Your Name",
     phoneLabel: "Phone Number",
@@ -317,7 +317,7 @@ const translations = {
     buyNow: "এখনই কিনুন",
     price: "মূল্য:",
 
-    // Checkout Modal (Updated & Added)
+    // Checkout Modal
     checkoutTitle: "অর্ডার কনফার্ম করুন",
     nameLabel: "আপনার নাম",
     phoneLabel: "মোবাইল নম্বর",
@@ -373,8 +373,14 @@ const translations = {
 };
 
 export const LanguageProvider = ({ children }) => {
-  // আপনার কোড অনুযায়ী ডিফল্ট ল্যাঙ্গুয়েজ 'Bengali' সেট করা আছে
-  const [language, setLanguage] = useState("Bengali");
+  // ডিফল্ট ল্যাঙ্গুয়েজ English সেট করা হলো, এবং localStorage ব্যবহার করা হয়েছে যাতে ইউজারের চয়েস সেভ থাকে
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem("app_language") || "English";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("app_language", language);
+  }, [language]);
 
   const t = (key) => {
     return translations[language]?.[key] || key;

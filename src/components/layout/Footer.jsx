@@ -24,10 +24,10 @@ export default function Footer() {
           <div className="flex flex-col items-start space-y-4">
             <div className="flex items-center gap-2">
               <span className="text-2xl font-black text-white tracking-tight bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
-                WinStore BD
+                KeyShopBD
               </span>
               <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                {language === "English" ? "Official" : "অফিসিয়াল"}
+                {language === "English" ? "Official" : "অফিসিয়াল"}
               </span>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed">
@@ -40,7 +40,7 @@ export default function Footer() {
               <span>
                 {language === "English"
                   ? "Trusted Digital Software Store"
-                  : "বিশ্বস্ত ডিজিটাল সফটওয়্যার স্টোর"}
+                  : "বিশ্বস্ত ডিজিটাল সফটওয়্যার স্টোর"}
               </span>
             </div>
           </div>
@@ -88,30 +88,30 @@ export default function Footer() {
             <p className="text-gray-400 text-sm">
               {language === "English"
                 ? "Have any questions? Feel free to reach out to us anytime."
-                : "যেকোনো প্রয়োজনে আমাদের সাথে যোগাযোগ করতে পারেন।"}
+                : "যেকোনো প্রয়োজনে আমাদের সাথে যোগাযোগ করতে পারেন।"}
             </p>
             <div className="space-y-3 w-full text-sm">
               <a
-                href="tel:+8801648582639"
+                href="tel:+8801835187894"
                 className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 hover:border-blue-500 p-3 rounded-xl transition-all group"
               >
                 <div className="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
                   <PhoneCall className="w-4 h-4" />
                 </div>
                 <span className="text-white font-medium tracking-wider">
-                  +880 1648-582639
+                  +880 1835187894
                 </span>
               </a>
 
               <a
-                href="mailto:support@winstorebd.com"
+                href="mailto:support@keyshopbd.com"
                 className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 hover:border-blue-500 p-3 rounded-xl transition-all group"
               >
                 <div className="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-400 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
                   <Mail className="w-4 h-4" />
                 </div>
                 <span className="text-gray-300 font-medium">
-                  support@winstorebd.com
+                  support@keyshopbd.com
                 </span>
               </a>
             </div>
@@ -121,13 +121,13 @@ export default function Footer() {
         {/* Bottom Copyright Section */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
           <p>
-            &copy; {new Date().getFullYear()} WinStore BD.{" "}
+            &copy; {new Date().getFullYear()} KeyShopbd.{" "}
             {language === "English"
               ? "All rights reserved."
               : "সর্বস্বত্ব সংরক্ষিত।"}
           </p>
           <p className="flex items-center gap-1.5 text-gray-400">
-            {language === "English" ? "Crafted with" : "তৈরি করা হয়েছে"}{" "}
+            {language === "English" ? "Crafted with" : "তৈরি করা হয়েছে"}{" "}
             <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500" />{" "}
             {language === "English"
               ? "for better experience"

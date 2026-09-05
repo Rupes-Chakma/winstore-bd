@@ -16,7 +16,7 @@ export default function CartPage() {
     const myWhatsAppNumber = "8801648582639";
 
     const now = new Date();
-    const formattedDateTime = now.toLocaleString("bn-BD", {
+    const formattedDateTime = now.toLocaleString("en-US", {
       dateStyle: "medium",
       timeStyle: "short",
     });
@@ -24,27 +24,41 @@ export default function CartPage() {
     const itemsList = cart
       .map(
         (item, index) =>
-          `  ${index + 1}. 💻 *${item.name}*%0A      সংস্করণ: ${
-            item.versionName || "Windows"
-          }%0A      মূল্য: ৳${item.price}`,
+          `[${index + 1}] ${item.name}%0A` +
+          `    - Edition: ${item.versionName || "Windows"}%0A` +
+          `    - Price: BDT ${item.price}`,
       )
       .join("%0A%0A");
 
+    // ডায়নামিক কাস্টমার ইনফরমেশন ব্লক (যা থাকবে শুধু সেটাই শো করবে)
+    let customerInfoLines = [];
+    if (paymentData.contact) {
+      customerInfoLines.push(`• Contact / Email: ${paymentData.contact}`);
+    } else if (paymentData.email) {
+      customerInfoLines.push(`• Contact / Email: ${paymentData.email}`);
+    }
+
+    const customerInfoFormatted =
+      customerInfoLines.length > 0
+        ? customerInfoLines.join("%0A")
+        : `• Contact / Email: N/A`;
+
+    // ফরমাল এবং করপোরেট স্টাইল নোটিফিকেশন ফরম্যাট
     const message =
-      `🚨 🛍️ *নতুন অর্ডার নোটিফিকেশন* 🛍️%0A` +
-      `━━━━━━━━━━━━━━━━━━━━━%0A%0A` +
-      `👤 *কাস্টমার ইনফরমেশন*%0A` +
-      `📞 যোগাযোগের নম্বর: \`${paymentData.contact}\`%0A%0A` +
-      `💳 *পেমেন্ট ডিটেইলস*%0A` +
-      `🔹 পেমেন্ট মেথড: *${paymentData.method}*%0A` +
-      `📱 সেন্ডার নম্বর: \`${paymentData.sender}\`%0A` +
-      `🔑 TrxID: \`${paymentData.trx || "দেওয়া হয়নি"}\`%0A` +
-      `💵 মোট পরিশোধিত: *৳${paymentData.amount}*%0A%0A` +
-      `📦 *অর্ডারকৃত প্রোডাক্ট (${cart.length}টি)*%0A` +
-      `━━━━━━━━━━━━━━━━━━━━━%0A` +
+      `ORDER NOTIFICATION%0A` +
+      `--------------------------------------------------%0A%0A` +
+      `CUSTOMER INFORMATION%0A` +
+      `${customerInfoFormatted}%0A%0A` +
+      `PAYMENT DETAILS%0A` +
+      `• Method: ${paymentData.method}%0A` +
+      `• Sender Number: ${paymentData.sender}%0A` +
+      `• Transaction ID: ${paymentData.trx || "N/A"}%0A` +
+      `• Total Amount: BDT ${paymentData.amount}%0A%0A` +
+      `ORDERED ITEMS (${cart.length} Item${cart.length > 1 ? "s" : ""})%0A` +
+      `--------------------------------------------------%0A` +
       `${itemsList}%0A%0A` +
-      `━━━━━━━━━━━━━━━━━━━━━%0A` +
-      `🕒 *অর্ডারের সময়:* ${formattedDateTime}`;
+      `--------------------------------------------------%0A` +
+      `Timestamp: ${formattedDateTime}`;
 
     const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${message}`;
     window.open(whatsappUrl, "_blank");

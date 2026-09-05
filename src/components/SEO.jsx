@@ -3,15 +3,15 @@ import { Helmet } from "react-helmet-async";
 
 export default function SEO({ title, description, keywords, image, url }) {
   const siteTitle = title
-    ? `${title} | WinStore BD`
-    : "WinStore BD - Genuine Software License Keys in BD";
+    ? `${title} | KeyShopbd`
+    : "KeyShopbd - Genuine Software License Keys in BD";
   const siteDescription =
     description ||
     "Buy genuine Windows 10, Windows 11, Office, and Server license keys at cheap price in Bangladesh with instant delivery via bKash/Nagad.";
   const siteKeywords =
     keywords ||
-    "windows 11 bd, win 10 price in bd, office 2021 license key bangladesh, winstore bd";
-  const siteUrl = url || "https://winstorebd.com"; // আপনার ডোমেইন URL
+    "windows 11 bd, win 10 price in bd, office 2021 license key bangladesh, keyshopbd";
+  const siteUrl = url || "https://keyshopbd.com"; // আপনার ডোমেইন URL
 
   return (
     <Helmet>

@@ -26,7 +26,9 @@ export default function Navbar() {
           className="flex items-center gap-2 text-xl font-bold text-blue-400 hover:text-blue-300 transition"
         >
           <Monitor className="w-6 h-6" />
-          <span>WinStore BD</span>
+          <span>
+            Key<span className="text-white">ShopBD</span>
+          </span>
         </Link>
 
         {/* Links, Language Toggle & Cart Icon */}
