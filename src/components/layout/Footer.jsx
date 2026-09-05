@@ -13,6 +13,14 @@ import { useLanguage } from "../../context/LanguageContext";
 export default function Footer() {
   const { language } = useLanguage();
 
+  // লোগো বা ব্র্যান্ড নোমে ক্লিক করলে স্মুথলি একদম উপরে স্ক্রল করার ফাংশন
+  const handleScrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <footer className="bg-slate-950 text-gray-300 relative overflow-hidden border-t border-slate-800/80 mt-16">
       {/* Top Background Glow Effect */}
@@ -20,16 +28,49 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 pt-16 pb-10 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 pb-12 border-b border-slate-800/60">
-          {/* Column 1: Brand Info */}
+          {/* Column 1: Brand Info with Animated Monitor Logo */}
           <div className="flex flex-col items-start space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-black text-white tracking-tight bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
-                KeyShopBD
-              </span>
-              <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                {language === "English" ? "Official" : "অফিসিয়াল"}
-              </span>
+            <div
+              onClick={handleScrollTop}
+              className="group flex items-center gap-2.5 cursor-pointer"
+            >
+              {/* Outer Computer Monitor Frame with Vivid Cyan/Blue Glow */}
+              <div className="relative w-9 h-8 sm:w-10 sm:h-9 rounded-xl bg-slate-900 border-2 border-cyan-500/60 flex flex-col items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:border-cyan-400 group-hover:shadow-cyan-400/40 group-hover:scale-105 transition-all duration-300 ease-out shrink-0">
+                {/* Screen Inner Area containing the Key Shape */}
+                <div className="flex items-center justify-center w-full h-full pt-0.5">
+                  <svg
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 group-hover:rotate-12 group-hover:scale-110 transition-transform duration-300 ease-in-out"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2.3"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                    />
+                  </svg>
+                </div>
+
+                {/* Tiny Computer Stand/Base at the bottom */}
+                <div className="absolute -bottom-1 w-2.5 sm:w-3 h-1 bg-cyan-600 rounded-b group-hover:bg-cyan-400 transition-colors"></div>
+              </div>
+
+              {/* Typography */}
+              <div className="flex items-center tracking-normal ml-0.5">
+                <span className="text-white font-extrabold tracking-wide text-xl">
+                  Key
+                </span>
+                <span className="text-cyan-400 font-extrabold text-xl">
+                  Shop
+                </span>
+                <span className="ml-1 text-[10px] font-bold px-1.5 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/35 uppercase tracking-tighter shadow-sm">
+                  BD
+                </span>
+              </div>
             </div>
+
             <p className="text-sm text-gray-400 leading-relaxed">
               {language === "English"
                 ? "We provide 100% original and genuine Windows product keys with lifetime activation and 1-to-1 instant trusted support."
